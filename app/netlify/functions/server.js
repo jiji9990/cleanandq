@@ -17,6 +17,11 @@ app.use(express.static(path.join(__dirname, "../../src/public")));
 app.use(express.urlencoded({ extended: true }));
 app.use("/", home);
 
+// favicon
+app.get("/favicon.ico", (req, res) => {
+  res.sendFile(path.join(__dirname, "../../src/public/favicon/clnqlogo.ico"));
+});
+
 // robots.txt
 app.get("/robots.txt", (req, res) => {
   res.type("text/plain");
