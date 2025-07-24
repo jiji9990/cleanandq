@@ -1,0 +1,19 @@
+{
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default"
+            },
+            "previewLimit": 50,
+            "server": "resurrection.co6frr4mfuih.ap-northeast-2.rds.amazonaws.com",
+            "port": 3306,
+            "driver": "MySQL",
+            "name": "db",
+            "database": "resurrection",
+            "username": "jun9990",
+            "password": "juny8425%"
+        }
+    ],
+    "search.actionsPosition": "right",
+    "search.experimental.closedNotebookRichContentResults": true
+}

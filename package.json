@@ -1,0 +1,15 @@
+{
+  "name": "cleanandq",
+  "version": "1.0.0", 
+  "description": "Clean & Q website for Cloudflare Pages",
+  "main": "functions/[[route]].js",
+  "scripts": {
+    "build": "cd app && npm install && npm run build",
+    "dev": "cd app && npm run dev",
+    "preview": "wrangler pages dev ./app/src/public --functions ./functions"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "wrangler": "^3.0.0"
+  }
+}

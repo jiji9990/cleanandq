@@ -1,0 +1,28 @@
+# Cloudflare Pages 빌드 설정
+
+# Build settings
+[build]
+  # 빌드 명령어
+  command = "npm run build"
+  # 빌드 결과물 디렉토리 (정적 파일들)
+  publish = "app/src/public"
+  # Functions 디렉토리
+  functions = "functions"
+
+# 환경 변수 설정 (CloudType에서 사용하던 것들)
+[build.environment]
+  NODE_VERSION = "22"
+
+# 리다이렉트 설정 (SPA 라우팅용)
+[[redirects]]
+  from = "/*"
+  to = "/functions/[[route]]"
+  status = 200
+  force = false
+
+# 헤더 설정
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
