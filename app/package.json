@@ -93,7 +93,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node ./bin/www.js",
-    "build": "npm install",
+    "build": "echo 'Build complete'",
     "dev": "nodemon ./bin/www.js"
   },
   "author": "junyoung lee",

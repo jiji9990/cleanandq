@@ -7,3 +7,9 @@ functions
 _worker.js
 _routes.json
 netlify.toml
+.github
+README.md
+appspec.yml
+LICENSE
+robots.txt
+*.Zone.Identifier
