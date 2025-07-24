@@ -1,5 +1,91 @@
-// Cloudflare Pages Functions를 위한 Express 앱 어댑터
-const path = require('path');
+// Cloudflare Pages Functions - Express 라우팅 시스템과 연동
+import { readFileSync } from 'fs';
+import { join } from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = join(fileURLToPath(import.meta.url), '../..');
+
+// 간단한 EJS 렌더링 함수 (기본적인 변수 치환만)
+function renderEJS(templatePath, data = {}) {
+  try {
+    const template = readFileSync(templatePath, 'utf-8');
+    let result = template;
+    
+    // 기본적인 EJS 변수 치환
+    for (const [key, value] of Object.entries(data)) {
+      const regex = new RegExp(`<%=\\s*${key}\\s*%>`, 'g');
+      result = result.replace(regex, value);
+    }
+    
+    // include 처리 제거 (복잡하므로)
+    result = result.replace(/<%[\s\S]*?%>/g, '');
+    
+    return result;
+  } catch (error) {
+    console.error('EJS rendering error:', error);
+    return `<h1>Error rendering page</h1><p>${error.message}</p>`;
+  }
+}
+
+// 라우트 매핑 (기존 Express 라우터와 동일)
+const routes = {
+  '/': () => renderEJS(join(__dirname, 'src/views/home/main.ejs')),
+  '/login': () => renderEJS(join(__dirname, 'src/views/home/login.ejs')),
+  '/register': () => renderEJS(join(__dirname, 'src/views/home/register.ejs')),
+  '/hanstone': () => renderEJS(join(__dirname, 'src/views/home/hanstone.ejs')),
+  '/homesash': () => renderEJS(join(__dirname, 'src/views/home/homesash.ejs')),
+  '/normal': () => renderEJS(join(__dirname, 'src/views/home/sash/normal.ejs')),
+  '/balcony': () => renderEJS(join(__dirname, 'src/views/home/sash/balcony.ejs')),
+  '/system': () => renderEJS(join(__dirname, 'src/views/home/sash/system.ejs')),
+  '/rehau': () => renderEJS(join(__dirname, 'src/views/home/sash/rehau.ejs')),
+  '/aluminium': () => renderEJS(join(__dirname, 'src/views/home/sash/aluminium.ejs')),
+  '/specialuse': () => renderEJS(join(__dirname, 'src/views/home/sash/specialuse.ejs')),
+  '/sheetcolor': () => renderEJS(join(__dirname, 'src/views/home/sash/sheetcolor.ejs')),
+  '/handle': () => renderEJS(join(__dirname, 'src/views/home/sash/handle.ejs')),
+  '/flooring': () => renderEJS(join(__dirname, 'src/views/home/floor/flooring.ejs')),
+  '/maru': () => renderEJS(join(__dirname, 'src/views/home/floor/maru/maru.ejs')),
+  '/sentra7': () => renderEJS(join(__dirname, 'src/views/home/floor/maru/sentra7/sentra7.ejs')),
+  '/sentra7char': () => renderEJS(join(__dirname, 'src/views/home/floor/maru/sentra7/sentra7char.ejs')),
+  '/sentra6': () => renderEJS(join(__dirname, 'src/views/home/floor/maru/sentra6/sentra6.ejs')),
+  '/sentra6char': () => renderEJS(join(__dirname, 'src/views/home/floor/maru/sentra6/sentra6char.ejs')),
+  '/leum': () => renderEJS(join(__dirname, 'src/views/home/floor/leum/leum.ejs')),
+  '/artium2': () => renderEJS(join(__dirname, 'src/views/home/floor/leum/artium2/artium2.ejs')),
+  '/artium2char': () => renderEJS(join(__dirname, 'src/views/home/floor/leum/artium2/artium2char.ejs')),
+  '/artium3': () => renderEJS(join(__dirname, 'src/views/home/floor/leum/artium3/artium3.ejs')),
+  '/artium3char': () => renderEJS(join(__dirname, 'src/views/home/floor/leum/artium3/artium3char.ejs')),
+  '/artium3ex': () => renderEJS(join(__dirname, 'src/views/home/floor/leum/artium3/artium3ex.ejs')),
+  '/charm': () => renderEJS(join(__dirname, 'src/views/home/floor/leum/charm/charm.ejs')),
+  '/charmchar': () => renderEJS(join(__dirname, 'src/views/home/floor/leum/charm/charmchar.ejs')),
+  '/goldstrong': () => renderEJS(join(__dirname, 'src/views/home/floor/leum/goldstrong/goldstrong.ejs')),
+  '/goldstrongchar': () => renderEJS(join(__dirname, 'src/views/home/floor/leum/goldstrong/goldstrongchar.ejs')),
+  '/myeong20': () => renderEJS(join(__dirname, 'src/views/home/floor/leum/myeong20/myeong20.ejs')),
+  '/myeong20char': () => renderEJS(join(__dirname, 'src/views/home/floor/leum/myeong20/myeong20char.ejs')),
+  '/myeong22': () => renderEJS(join(__dirname, 'src/views/home/floor/leum/myeong22/myeong22.ejs')),
+  '/myeong22char': () => renderEJS(join(__dirname, 'src/views/home/floor/leum/myeong22/myeong22char.ejs')),
+  '/sorigium': () => renderEJS(join(__dirname, 'src/views/home/floor/leum/sorigium/sorigium.ejs')),
+  '/sorigiumchar': () => renderEJS(join(__dirname, 'src/views/home/floor/leum/sorigium/sorigiumchar.ejs')),
+  '/tile': () => renderEJS(join(__dirname, 'src/views/home/floor/tile/tile.ejs')),
+  '/carpet': () => renderEJS(join(__dirname, 'src/views/home/floor/tile/carpet/carpet.ejs')),
+  '/carpetchar': () => renderEJS(join(__dirname, 'src/views/home/floor/tile/carpet/carpetchar.ejs')),
+  '/deluxe': () => renderEJS(join(__dirname, 'src/views/home/floor/tile/deluxe/deluxe.ejs')),
+  '/deluxechar': () => renderEJS(join(__dirname, 'src/views/home/floor/tile/deluxe/deluxechar.ejs')),
+  '/goldregent': () => renderEJS(join(__dirname, 'src/views/home/floor/tile/goldregent/goldregent.ejs')),
+  '/goldregentchar': () => renderEJS(join(__dirname, 'src/views/home/floor/tile/goldregent/goldregentchar.ejs')),
+  '/dongseo': () => renderEJS(join(__dirname, 'src/views/home/floor/tile/dongseo/dongseo.ejs')),
+  '/dongseochar': () => renderEJS(join(__dirname, 'src/views/home/floor/tile/dongseo/dongseochar.ejs')),
+  '/goldclassic': () => renderEJS(join(__dirname, 'src/views/home/floor/tile/goldclassic/goldclassic.ejs')),
+  '/goldclassicchar': () => renderEJS(join(__dirname, 'src/views/home/floor/tile/goldclassic/goldclassicchar.ejs')),
+  '/goldmaster': () => renderEJS(join(__dirname, 'src/views/home/floor/tile/goldmaster/goldmaster.ejs')),
+  '/goldmasterchar': () => renderEJS(join(__dirname, 'src/views/home/floor/tile/goldmaster/goldmasterchar.ejs')),
+  '/rubber': () => renderEJS(join(__dirname, 'src/views/home/floor/tile/rubber/rubber.ejs')),
+  '/rubberchar': () => renderEJS(join(__dirname, 'src/views/home/floor/tile/rubber/rubberchar.ejs')),
+  '/function': () => renderEJS(join(__dirname, 'src/views/home/floor/function/function.ejs')),
+  '/conductive': () => renderEJS(join(__dirname, 'src/views/home/floor/function/conductive/conductive.ejs')),
+  '/conductivechar': () => renderEJS(join(__dirname, 'src/views/home/floor/function/conductive/conductivechar.ejs')),
+  '/oa': () => renderEJS(join(__dirname, 'src/views/home/floor/function/oa/oa.ejs')),
+  '/oachar': () => renderEJS(join(__dirname, 'src/views/home/floor/function/oa/oachar.ejs'))
+};
 
 export default {
   async fetch(request, env, ctx) {
@@ -8,45 +94,41 @@ export default {
       const pathname = url.pathname;
       
       // 정적 파일 요청인지 확인
-      const staticExtensions = ['.css', '.js', '.png', '.jpg', '.jpeg', '.gif', '.ico', '.svg', '.woff', '.woff2'];
+      const staticExtensions = ['.css', '.js', '.png', '.jpg', '.jpeg', '.gif', '.ico', '.svg', '.woff', '.woff2', '.mp4'];
       const isStaticFile = staticExtensions.some(ext => pathname.endsWith(ext));
       
       if (isStaticFile) {
-        // 정적 파일은 그대로 전달 (Cloudflare Pages가 자동 처리)
+        // 정적 파일은 Cloudflare Pages가 자동 처리
         return fetch(request);
       }
-      
-      // HTML 응답 생성
-      let htmlContent = '';
-      
-      if (pathname === '/' || pathname === '/main') {
-        htmlContent = await generateMainPage();
-      } else if (pathname === '/hanstone') {
-        htmlContent = await generateHanstonePage();
-      } else if (pathname === '/homesash') {
-        htmlContent = await generateHomesashPage();
-      } else if (pathname === '/login') {
-        htmlContent = await generateLoginPage();
-      } else if (pathname === '/register') {
-        htmlContent = await generateRegisterPage();
-      } else if (pathname === '/robots.txt') {
-        return new Response("User-agent: *\nAllow:/", {
+
+      // robots.txt 처리
+      if (pathname === '/robots.txt') {
+        return new Response('User-agent: *\nAllow:/', {
           headers: { 'Content-Type': 'text/plain' }
         });
-      } else {
-        // 404 페이지
-        htmlContent = await generate404Page();
       }
-      
-      return new Response(htmlContent, {
+
+      // 라우트 처리
+      const routeHandler = routes[pathname];
+      if (routeHandler) {
+        const htmlContent = routeHandler();
+        return new Response(htmlContent, {
+          headers: { 'Content-Type': 'text/html; charset=utf-8' }
+        });
+      }
+
+      // 404 처리
+      return new Response('<h1>404 - Page Not Found</h1>', {
+        status: 404,
         headers: { 'Content-Type': 'text/html; charset=utf-8' }
       });
       
     } catch (error) {
       console.error('Error:', error);
-      return new Response('Internal Server Error', { 
+      return new Response(`<h1>500 - Internal Server Error</h1><p>${error.message}</p>`, { 
         status: 500,
-        headers: { 'Content-Type': 'text/html' }
+        headers: { 'Content-Type': 'text/html; charset=utf-8' }
       });
     }
   }
