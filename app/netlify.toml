@@ -1,7 +1,11 @@
 [build]
   command = "npm install"
-  functions = "netlify/functions"
-  publish = "src/public"
+  publish = "."
 
-[dev]
-  command = "npm start"
+[[redirects]]
+  from = "/*"
+  to = "/.netlify/functions/server"
+  status = 200
+
+[functions]
+  node_bundler = "esbuild"

@@ -88,7 +88,8 @@
     "unpipe": "^1.0.0",
     "utils-merge": "^1.0.1",
     "vary": "^1.1.2",
-    "winston": "^3.8.2"
+    "winston": "^3.8.2",
+    "serverless-http": "^3.2.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
