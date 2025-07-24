@@ -1,11 +1,8 @@
 [build]
-  command = "npm install"
-  publish = "."
+  command = "npm install && node generate-static.js"
+  publish = "dist"
 
 [[redirects]]
-  from = "/*"
-  to = "/.netlify/functions/server"
+  from = "/robots.txt"
+  to = "/robots.txt"
   status = 200
-
-[functions]
-  node_bundler = "nft"
